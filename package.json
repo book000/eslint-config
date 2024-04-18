@@ -1,14 +1,16 @@
 {
   "name": "@book000/eslint-config",
   "version": "0.1.0",
-  "description": "",
+  "description": "ESLint config",
+  "keywords": [
+    "eslint-config"
+  ],
   "homepage": "https://github.com/book000/eslint-config",
   "bugs": {
     "url": "https://github.com/book000/eslint-config/issues"
   },
   "license": "MIT",
   "author": "Tomachi <tomachi@tomacheese.com>",
-  "private": true,
   "main": "index.mjs",
   "repository": {
     "type": "git",
@@ -24,7 +26,7 @@
     "typescript-eslint": "7.6.0"
   },
   "peerDependencies": {
-    "eslint": "9.0.0",
+    "eslint": "^9.0.0",
     "eslint-config-standard": "17.1.0"
   },
   "packageManager": "pnpm@8.15.7"
