@@ -54,6 +54,8 @@ export default tseslint.config(
       "unicorn/prefer-top-level-await": "off",
       "unicorn/no-null": "off",
     },
+  },
+  {
     ignores: ["dist", "output", "node_modules", "data", "logs"],
   },
   eslintPrettier
