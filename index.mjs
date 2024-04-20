@@ -51,6 +51,12 @@ export default tseslint.config(
           ignoreIIFE: true,
         },
       ],
+      "@typescript-eslint/no-unnecessary-condition": [
+        "error",
+        {
+          allowConstantLoopConditions: true,
+        },
+      ],
       "unicorn/prefer-top-level-await": "off",
       "unicorn/prevent-abbreviations": "off",
       "unicorn/no-null": "off",
