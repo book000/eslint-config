@@ -19,6 +19,7 @@
   "dependencies": {
     "@eslint/eslintrc": "3.0.2",
     "@typescript-eslint/parser": "7.7.0",
+    "@stylistic/eslint-plugin": "1.7.2",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-unicorn": "52.0.0",
     "globals": "15.0.0",
