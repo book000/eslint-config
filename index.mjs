@@ -1,6 +1,5 @@
 // @ts-check
 import { FlatCompat } from "@eslint/eslintrc";
-import stylistic from "@stylistic/eslint-plugin";
 import tseslintParser from "@typescript-eslint/parser";
 import eslintPrettier from "eslint-config-prettier";
 import unicorn from "eslint-plugin-unicorn";
@@ -14,7 +13,6 @@ export default tseslint.config(
   ...tseslint.configs.recommended,
   // @ts-expect-error flat/recommendedの返すpluginsがstring[]なことでエラーになるため
   unicorn.configs["flat/recommended"],
-  stylistic.configs["recommended-flat"],
   {
     files: ["**/*.ts", "**/*.tsx"],
     languageOptions: {
@@ -65,12 +63,6 @@ export default tseslint.config(
           allowConstantLoopConditions: true,
         },
       ],
-      // アロー関数使用時、括弧を強制する
-      // 本来はPrettierで設定して動作させるものなのかもしれない
-      "@stylistic/arrow-parens": ["error", "always"],
-      // シングルクォートを強制する。ただし、エスケープを避ける
-      // 本来はPrettierで設定して動作させるものなのかもしれない
-      "@stylistic/quotes": ["error", "single", { avoidEscape: true }],
       // トップレベルのawaitを許可する
       "unicorn/prefer-top-level-await": "off",
       // 省略形を許可する (dev -> development, prod -> productionなどの変換をさせない)
