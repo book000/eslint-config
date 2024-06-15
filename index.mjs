@@ -63,6 +63,8 @@ export default tseslint.config(
           allowConstantLoopConditions: true,
         },
       ],
+      // 名前空間として使用されるクラスを許可する
+      "@typescript-eslint/no-extraneous-class": "off",
       // トップレベルのawaitを許可する
       "unicorn/prefer-top-level-await": "off",
       // 省略形を許可する (dev -> development, prod -> productionなどの変換をさせない)
