@@ -20,7 +20,7 @@
     "@eslint/eslintrc": "3.1.0",
     "@typescript-eslint/parser": "7.17.0",
     "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-unicorn": "54.0.0",
+    "eslint-plugin-unicorn": "55.0.0",
     "globals": "15.8.0",
     "typescript-eslint": "7.17.0"
   },
