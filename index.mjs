@@ -65,6 +65,9 @@ export default tseslint.config(
       ],
       // 名前空間として使用されるクラスを許可する
       "@typescript-eslint/no-extraneous-class": "off",
+      // 変数などの未定義使用について、TypeScript準拠とする
+      "no-use-before-define": "off",
+      "@typescript-eslint/no-use-before-define": "error",
       // トップレベルのawaitを許可する
       "unicorn/prefer-top-level-await": "off",
       // 省略形を許可する (dev -> development, prod -> productionなどの変換をさせない)
