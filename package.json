@@ -17,7 +17,7 @@
     "url": "git@github.com:book000/eslint-config.git"
   },
   "dependencies": {
-    "@eslint/eslintrc": "3.2.0",
+    "@eslint/eslintrc": "3.3.0",
     "@typescript-eslint/parser": "8.24.1",
     "eslint-config-prettier": "10.0.1",
     "eslint-plugin-unicorn": "57.0.0",
