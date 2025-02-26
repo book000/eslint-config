@@ -28,5 +28,5 @@
     "eslint": "9.21.0",
     "eslint-config-standard": "17.1.0"
   },
-  "packageManager": "pnpm@10.5.0"
+  "packageManager": "pnpm@10.5.1"
 }
