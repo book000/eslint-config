@@ -257,7 +257,7 @@ async function main() {
   }
 
   fs.unlinkSync(flatConfigPath);
-  fs.rmdirSync(tmpDir);
+  fs.rmSync(tmpDir, { recursive: true });
   fs.unlinkSync(tsconfigPath);
   console.log("\n--- サマリ ---");
   console.log(`成功: ${pass} / 失敗: ${fail} / 合計: ${testCases.length}`);
