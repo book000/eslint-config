@@ -24,13 +24,13 @@ importers:
         specifier: 17.1.0
         version: 17.1.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.25.1)(typescript@5.8.3))(eslint@9.25.1))(eslint-plugin-n@17.17.0(eslint@9.25.1))(eslint-plugin-promise@7.2.1(eslint@9.25.1))(eslint@9.25.1)
       eslint-plugin-import:
-        specifier: ^2.31.0
+        specifier: 2.31.0
         version: 2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.25.1)(typescript@5.8.3))(eslint@9.25.1)
       eslint-plugin-n:
-        specifier: ^17.17.0
+        specifier: 17.17.0
         version: 17.17.0(eslint@9.25.1)
       eslint-plugin-promise:
-        specifier: ^7.2.1
+        specifier: 7.2.1
         version: 7.2.1(eslint@9.25.1)
       eslint-plugin-unicorn:
         specifier: 58.0.0
