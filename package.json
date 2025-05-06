@@ -28,7 +28,7 @@
     "typescript-eslint": "8.31.1"
   },
   "peerDependencies": {
-    "eslint": "9.25.1",
+    "eslint": "9.26.0",
     "eslint-config-standard": "17.1.0"
   },
   "packageManager": "pnpm@10.10.0",
