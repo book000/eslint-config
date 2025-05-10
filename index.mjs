@@ -77,7 +77,7 @@ export default tseslint.config(
     },
   },
   {
-    ignores: ["dist", "output", "node_modules", "data", "logs"],
+    ignores: ["dist", "output", "node_modules", "data", "logs", "coverage"],
   },
   eslintPrettier
 );
