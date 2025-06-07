@@ -149,6 +149,12 @@ async function main() {
       shouldError: false,
       rules: ["@typescript-eslint/no-extraneous-class"],
     },
+    {
+      name: "no-useless-undefined: 無駄なundefinedはOK",
+      code: "function f(x = undefined) { return undefined; }",
+      shouldError: false,
+      rules: ["unicorn/no-useless-undefined"],
+    },
   ];
 
   // テスト用一時ファイルをsrc/配下に作成することで、flat configのfiles: ["**/*.ts"]に確実にマッチさせる

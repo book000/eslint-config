@@ -1,4 +1,3 @@
-// @ts-check
 import { FlatCompat } from "@eslint/eslintrc";
 import tseslintParser from "@typescript-eslint/parser";
 import eslintPrettier from "eslint-config-prettier";
@@ -74,6 +73,8 @@ export default tseslint.config(
       "unicorn/prevent-abbreviations": "off",
       // nullを許可する
       "unicorn/no-null": "off",
+      // 無駄なundefinedを許可する
+      "unicorn/no-useless-undefined": "off",
     },
   },
   {
