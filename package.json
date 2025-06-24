@@ -20,7 +20,7 @@
     "@eslint/eslintrc": "3.3.1",
     "@typescript-eslint/parser": "8.34.1",
     "eslint-config-prettier": "10.1.5",
-    "eslint-plugin-import": "2.31.0",
+    "eslint-plugin-import": "2.32.0",
     "eslint-plugin-n": "17.20.0",
     "eslint-plugin-promise": "7.2.1",
     "eslint-plugin-unicorn": "59.0.1",
