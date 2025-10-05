@@ -31,7 +31,7 @@
     "eslint": "9.36.0",
     "eslint-config-standard": "17.1.0"
   },
-  "packageManager": "pnpm@10.17.1",
+  "packageManager": "pnpm@10.18.0",
   "scripts": {
     "test": "TEST_CLI=1 node --experimental-vm-modules test.mjs"
   }
