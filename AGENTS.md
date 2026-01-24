@@ -25,3 +25,7 @@
 - ログに機密情報を出力しない。
 
 ## リポジトリ固有
+- **type**: Reusable Package
+- **publish**: npm package (@book000/eslint-config v1.0.0+)
+- **usage**: Designed to be imported as '@book000/eslint-config' in other projects
+- **note**: Uses modern ESLint v9 flat config format, not legacy .eslintrc
