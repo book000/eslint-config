@@ -70,6 +70,11 @@ pnpm test
   - `@typescript-eslint/no-explicit-any`: off (any 型の使用を許可)
   - `@typescript-eslint/no-unsafe-assignment`: off (危険な代入を許可)
   - `@typescript-eslint/no-unsafe-argument`: off (危険な引数を許可)
+  - `@typescript-eslint/restrict-template-expressions`: テンプレート式で number, boolean, any, nullish を許可
+  - `@typescript-eslint/no-floating-promises`: void 演算子と即時関数での Promise を許可
+  - `@typescript-eslint/no-unnecessary-condition`: 定数ループ条件 (無限ループ) を許可
+  - `@typescript-eslint/no-extraneous-class`: 名前空間として使用されるクラスを許可
+  - `@typescript-eslint/no-use-before-define`: TypeScript 準拠に変更
   - `unicorn/prefer-top-level-await`: off (トップレベル await を許可)
   - `unicorn/prevent-abbreviations`: off (省略形を許可)
   - `unicorn/no-null`: off (null を許可)
