@@ -1,14 +1,13 @@
-import { FlatCompat } from "@eslint/eslintrc";
 import tseslintParser from "@typescript-eslint/parser";
 import eslintPrettier from "eslint-config-prettier";
 import unicorn from "eslint-plugin-unicorn";
 import globals from "globals";
+import neostandard from "neostandard";
 import tseslint from "typescript-eslint";
 
-const compat = new FlatCompat();
-
 export default tseslint.config(
-  ...compat.extends("eslint-config-standard"),
+  // Standard JS のルールセット（スタイル系は prettier に委ねるため無効化）
+  ...neostandard({ noStyle: true }),
   ...tseslint.configs.recommended,
   // @ts-expect-error flat/recommendedの返すpluginsがstring[]なことでエラーになるため
   unicorn.configs["flat/recommended"],
