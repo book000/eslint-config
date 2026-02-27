@@ -17,19 +17,15 @@
     "url": "git@github.com:book000/eslint-config.git"
   },
   "dependencies": {
-    "@eslint/eslintrc": "3.3.3",
     "@typescript-eslint/parser": "8.56.1",
     "eslint-config-prettier": "10.1.8",
-    "eslint-plugin-import": "2.32.0",
-    "eslint-plugin-n": "17.23.2",
-    "eslint-plugin-promise": "7.2.1",
     "eslint-plugin-unicorn": "62.0.0",
     "globals": "17.2.0",
+    "neostandard": "0.12.2",
     "typescript-eslint": "8.56.1"
   },
   "peerDependencies": {
-    "eslint": "^9.0.0 || ^10.0.0",
-    "eslint-config-standard": "17.1.0"
+    "eslint": "^9.0.0 || ^10.0.0"
   },
   "packageManager": "pnpm@10.28.2",
   "scripts": {
