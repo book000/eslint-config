@@ -21,7 +21,7 @@
 - 主要パッケージ:
   - typescript-eslint
   - eslint-plugin-unicorn
-  - eslint-config-standard
+  - neostandard
   - eslint-config-prettier
 
 ## コーディング規約
