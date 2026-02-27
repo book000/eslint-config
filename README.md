@@ -7,19 +7,25 @@ ESLint config for [Tomachi (book000)](https://github.com/book000)
 If you are using npm:
 
 ```shell
-npm install eslint eslint-config-standard eslint-plugin-import eslint-plugin-n eslint-plugin-promise @book000/eslint-config
+npm install eslint @book000/eslint-config
 ```
 
 or if you are using yarn:
 
 ```shell
-yarn add eslint eslint-config-standard eslint-plugin-import eslint-plugin-n eslint-plugin-promise @book000/eslint-config
+yarn add eslint @book000/eslint-config
 ```
 
 or if you are using pnpm:
 
 ```shell
-pnpm add eslint eslint-config-standard eslint-plugin-import eslint-plugin-n eslint-plugin-promise @book000/eslint-config
+pnpm add eslint @book000/eslint-config
+```
+
+For TypeScript projects, `typescript` is also required (TypeScript linting uses `parserOptions.project` pointing to `tsconfig.json`):
+
+```shell
+npm install typescript
 ```
 
 Then, create `eslint.config.mjs` file and write the following:

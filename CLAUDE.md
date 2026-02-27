@@ -92,7 +92,7 @@ pnpm test
 
 - ESLint flat config (eslint.config.mjs 形式) を提供するパッケージ
 - TypeScript / JavaScript プロジェクト向けの厳格なルールセット
-- typescript-eslint, unicorn, standard, prettier の統合
+- typescript-eslint, unicorn, neostandard, prettier の統合
 
 ### 主要ディレクトリとファイル
 
