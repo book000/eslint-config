@@ -22,6 +22,12 @@ or if you are using pnpm:
 pnpm add eslint @book000/eslint-config
 ```
 
+For TypeScript projects, `typescript` is also required (TypeScript linting uses `parserOptions.project` pointing to `tsconfig.json`):
+
+```shell
+npm install typescript
+```
+
 Then, create `eslint.config.mjs` file and write the following:
 
 ```js
