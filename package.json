@@ -17,12 +17,12 @@
     "url": "git@github.com:book000/eslint-config.git"
   },
   "dependencies": {
-    "@typescript-eslint/parser": "8.57.0",
+    "@typescript-eslint/parser": "8.57.1",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-unicorn": "63.0.0",
     "globals": "17.4.0",
     "neostandard": "0.13.0",
-    "typescript-eslint": "8.57.0"
+    "typescript-eslint": "8.57.1"
   },
   "peerDependencies": {
     "eslint": "10.0.3"
