@@ -74,6 +74,8 @@ export default tseslint.config(
       "unicorn/no-null": "off",
       // 無駄なundefinedを許可する
       "unicorn/no-useless-undefined": "off",
+      // catchブロックのエラー変数名をerrに変更する
+      "unicorn/catch-error-name": ["error", { name: "err" }],
     },
   },
   {
