@@ -77,6 +77,12 @@ export default tseslint.config(
     },
   },
   {
+    // catch ブロックのエラー変数名を err に変更する（JS/TS 両方に適用）
+    rules: {
+      "unicorn/catch-error-name": ["error", { name: "err" }],
+    },
+  },
+  {
     ignores: ["dist", "output", "node_modules", "data", "logs", "coverage"],
   },
   eslintPrettier

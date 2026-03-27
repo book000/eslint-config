@@ -155,6 +155,24 @@ async function main() {
       shouldError: false,
       rules: ["unicorn/no-useless-undefined"],
     },
+    {
+      name: "catch-error-name: catch ブロックで err を使用するのは OK",
+      code: "try { throw new Error(); } catch (err) { console.log(err); }",
+      shouldError: false,
+      rules: ["unicorn/catch-error-name"],
+    },
+    {
+      name: "catch-error-name: catch ブロックで error を使用するのはエラー",
+      code: "try { throw new Error(); } catch (error) { console.log(error); }",
+      shouldError: true,
+      rules: ["unicorn/catch-error-name"],
+    },
+    {
+      name: "catch-error-name: スコープ内に error 変数があるときに err を使用するのは OK",
+      code: "const error = 'msg'; try { throw new Error(); } catch (err) { console.log(error, err); }",
+      shouldError: false,
+      rules: ["unicorn/catch-error-name"],
+    },
   ];
 
   // テスト用一時ファイルをsrc/配下に作成することで、flat configのfiles: ["**/*.ts"]に確実にマッチさせる
