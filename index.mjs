@@ -78,7 +78,7 @@ export default tseslint.config(
   },
   {
     // catch ブロックのエラー変数名は error に統一する。
-    // スコープ内に error 変数が既にある場合は重複を避けるため err も許容する（error_ を要求しない）。
+    // err も常に許容する（error_ は要求しない）。
     rules: {
       "unicorn/catch-error-name": ["error", { name: "error", ignore: [/^err$/] }],
     },

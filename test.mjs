@@ -168,6 +168,12 @@ async function main() {
       rules: ["unicorn/catch-error-name"],
     },
     {
+      name: "catch-error-name: err を使用するのは OK（常に許容）",
+      code: "try { throw new Error(); } catch (err) { console.log(err); }",
+      shouldError: false,
+      rules: ["unicorn/catch-error-name"],
+    },
+    {
       name: "catch-error-name: スコープ内に error 変数があるときに err を使用するのは OK（重複回避）",
       code: "const error = 'msg'; try { throw new Error(); } catch (err) { console.log(error, err); }",
       shouldError: false,
