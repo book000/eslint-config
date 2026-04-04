@@ -156,19 +156,25 @@ async function main() {
       rules: ["unicorn/no-useless-undefined"],
     },
     {
-      name: "catch-error-name: catch ブロックで err を使用するのは OK",
+      name: "catch-error-name: catch ブロックで error を使用するのは OK",
+      code: "try { throw new Error(); } catch (error) { console.log(error); }",
+      shouldError: false,
+      rules: ["unicorn/catch-error-name"],
+    },
+    {
+      name: "catch-error-name: catch ブロックで e など error/err 以外を使用するのはエラー",
+      code: "try { throw new Error(); } catch (e) { console.log(e); }",
+      shouldError: true,
+      rules: ["unicorn/catch-error-name"],
+    },
+    {
+      name: "catch-error-name: err を使用するのは OK（常に許容）",
       code: "try { throw new Error(); } catch (err) { console.log(err); }",
       shouldError: false,
       rules: ["unicorn/catch-error-name"],
     },
     {
-      name: "catch-error-name: catch ブロックで error を使用するのはエラー",
-      code: "try { throw new Error(); } catch (error) { console.log(error); }",
-      shouldError: true,
-      rules: ["unicorn/catch-error-name"],
-    },
-    {
-      name: "catch-error-name: スコープ内に error 変数があるときに err を使用するのは OK",
+      name: "catch-error-name: スコープ内に error 変数があるときに err を使用するのは OK（重複回避）",
       code: "const error = 'msg'; try { throw new Error(); } catch (err) { console.log(error, err); }",
       shouldError: false,
       rules: ["unicorn/catch-error-name"],
