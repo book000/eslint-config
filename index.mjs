@@ -84,6 +84,13 @@ export default tseslint.config(
     },
   },
   {
+    // __tests__ や __mocks__ など、Jest 等の規約に基づく
+    // ダブルアンダースコアディレクトリ名を unicorn/filename-case の対象外とする
+    rules: {
+      "unicorn/filename-case": ["error", { ignore: [/^__[\w-]+__$/] }],
+    },
+  },
+  {
     ignores: ["dist", "output", "node_modules", "data", "logs", "coverage"],
   },
   eslintPrettier

@@ -179,13 +179,46 @@ async function main() {
       shouldError: false,
       rules: ["unicorn/catch-error-name"],
     },
+    {
+      name: "filename-case: __tests__ ディレクトリはケースチェック対象外（OK）",
+      code: "export const a = 1;",
+      shouldError: false,
+      rules: ["unicorn/filename-case"],
+      dir: "__tests__",
+    },
+    {
+      name: "filename-case: __mocks__ ディレクトリはケースチェック対象外（OK）",
+      code: "export const a = 1;",
+      shouldError: false,
+      rules: ["unicorn/filename-case"],
+      dir: "__mocks__",
+    },
+    {
+      name: "filename-case: kebab-case でないディレクトリ名はエラー",
+      code: "export const a = 1;",
+      shouldError: true,
+      rules: ["unicorn/filename-case"],
+      dir: "notKebabCaseDir",
+    },
   ];
 
   // テスト用一時ファイルをsrc/配下に作成することで、flat configのfiles: ["**/*.ts"]に確実にマッチさせる
-  const tmpDir = path.join(process.cwd(), "src", "__tmp__cli");
-  if (!fs.existsSync(path.join(process.cwd(), "src")))
-    fs.mkdirSync(path.join(process.cwd(), "src"));
+  const srcDir = path.join(process.cwd(), "src");
+  const tmpDir = path.join(srcDir, "__tmp__cli");
+  if (!fs.existsSync(srcDir)) fs.mkdirSync(srcDir);
   if (!fs.existsSync(tmpDir)) fs.mkdirSync(tmpDir);
+
+  // テストケースごとに dir（src 配下の任意のディレクトリ名）が指定されていれば、
+  // unicorn/filename-case のディレクトリ名チェックを検証するために作成する
+  const extraDirs = new Set(
+    testCases
+      .map((testCase) => testCase.dir)
+      .filter((dir) => dir && dir !== "__tmp__cli")
+  );
+  for (const dir of extraDirs) {
+    const dirPath = path.join(srcDir, dir);
+    if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath, { recursive: true });
+  }
 
   // テスト用tsconfig.jsonを作成
   const tsconfigPath = path.join(process.cwd(), "tsconfig.json");
@@ -215,9 +248,10 @@ async function main() {
   // 並列実行用のPromise配列
   const promises = testCases.map((testCase, i) => {
     return new Promise((resolve) => {
-      const { name, code, shouldError, rules } = testCase;
+      const { name, code, shouldError, rules, dir } = testCase;
       const kebabName = `test-${i}.ts`;
-      const tmpFilePath = path.join(tmpDir, kebabName);
+      const targetDir = dir ? path.join(srcDir, dir) : tmpDir;
+      const tmpFilePath = path.join(targetDir, kebabName);
       fs.writeFileSync(tmpFilePath, code);
       exec(
         `npx eslint --no-cache --ext .ts ${tmpFilePath}`,
@@ -288,6 +322,9 @@ async function main() {
 
   fs.unlinkSync(flatConfigPath);
   fs.rmSync(tmpDir, { recursive: true });
+  for (const dir of extraDirs) {
+    fs.rmSync(path.join(srcDir, dir), { recursive: true });
+  }
   fs.unlinkSync(tsconfigPath);
   console.log("\n--- サマリ ---");
   console.log(`成功: ${pass} / 失敗: ${fail} / 合計: ${testCases.length}`);
