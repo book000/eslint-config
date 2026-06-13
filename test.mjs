@@ -215,9 +215,15 @@ async function main() {
       .map((testCase) => testCase.dir)
       .filter((dir) => dir && dir !== "__tmp__cli")
   );
+  // クリーンアップ時に削除してよいのは、このテストで新規に作成したディレクトリのみとする
+  // （既存の src/__tests__ 等を誤って削除しないようにするため）
+  const createdExtraDirs = new Set();
   for (const dir of extraDirs) {
     const dirPath = path.join(srcDir, dir);
-    if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath, { recursive: true });
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+      createdExtraDirs.add(dir);
+    }
   }
 
   // テスト用tsconfig.jsonを作成
@@ -322,7 +328,7 @@ async function main() {
 
   fs.unlinkSync(flatConfigPath);
   fs.rmSync(tmpDir, { recursive: true });
-  for (const dir of extraDirs) {
+  for (const dir of createdExtraDirs) {
     fs.rmSync(path.join(srcDir, dir), { recursive: true });
   }
   fs.unlinkSync(tsconfigPath);
