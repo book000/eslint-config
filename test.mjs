@@ -194,9 +194,16 @@ async function main() {
       dir: "__mocks__",
     },
     {
-      name: "filename-case: kebab-case でないディレクトリ名はエラー",
+      name: "filename-case: src ディレクトリはケースチェック対象外（OK）",
       code: "export const a = 1;",
-      shouldError: true,
+      shouldError: false,
+      rules: ["unicorn/filename-case"],
+      dir: "src",
+    },
+    {
+      name: "filename-case: checkDirectories: false のため kebab-case でないディレクトリ名もエラーにならない（OK）",
+      code: "export const a = 1;",
+      shouldError: false,
       rules: ["unicorn/filename-case"],
       dir: "notKebabCaseDir",
     },
