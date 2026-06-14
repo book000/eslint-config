@@ -84,10 +84,18 @@ export default tseslint.config(
     },
   },
   {
-    // __tests__ や __mocks__ など、Jest 等の規約に基づく
-    // ダブルアンダースコアディレクトリ名を unicorn/filename-case の対象外とする
+    // unicorn v65 からファイル名に加えてディレクトリ名もチェック対象となったが、
+    // ignore オプションはマッチしたセグメントを含むファイル全体をスキップするため
+    // ファイル名チェック自体まで無効化してしまう。
+    // そのため checkDirectories: false でディレクトリ名チェックのみ無効化する。
+    // src 等の慣習的なディレクトリ名でエラーが起きる問題もこれで解消される。
+    // __tests__ や __mocks__ 等のダブルアンダースコアディレクトリは引き続き
+    // ignore で対象外とする（テストファイル等はファイル名チェックも不要なため）。
     rules: {
-      "unicorn/filename-case": ["error", { ignore: [/^__[\w-]+__$/] }],
+      "unicorn/filename-case": [
+        "error",
+        { checkDirectories: false, ignore: [/^__[\w-]+__$/] },
+      ],
     },
   },
   {
