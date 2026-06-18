@@ -69,7 +69,7 @@ export default tseslint.config(
       // トップレベルのawaitを許可する
       "unicorn/prefer-top-level-await": "off",
       // クラスメンバーの順序（private before public）を強制しない。
-      // public-first の慣習はAPIの可読性として広く使われているため。
+      // public-first の慣習は API の可読性として広く使われているため。
       "unicorn/consistent-class-member-order": "off",
       // 省略形を許可する (dev -> development, prod -> productionなどの変換をさせない)
       "unicorn/prevent-abbreviations": "off",
