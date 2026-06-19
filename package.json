@@ -14,7 +14,7 @@
   "main": "index.mjs",
   "repository": {
     "type": "git",
-    "url": "git@github.com:book000/eslint-config.git"
+    "url": "git+https://github.com/book000/eslint-config.git"
   },
   "dependencies": {
     "@typescript-eslint/parser": "8.61.1",
