@@ -182,8 +182,11 @@ pnpm test
   - `@typescript-eslint/no-extraneous-class`: 名前空間として使用されるクラスを許可
   - `@typescript-eslint/no-use-before-define`: TypeScript 準拠に変更
   - `unicorn/prefer-top-level-await`: off (トップレベル await を許可)
+  - `unicorn/consistent-class-member-order`: off (private before public を強制せず public-first の慣習を許可)
   - `unicorn/prevent-abbreviations`: off (省略形を許可)
   - `unicorn/no-null`: off (null を許可)
   - `unicorn/no-useless-undefined`: off (無駄な undefined を許可)
+  - `unicorn/catch-error-name`: catch のエラー変数名を `error` に統一 (`err` も許可)
+  - `unicorn/filename-case`: `checkDirectories: false` でディレクトリ名チェックを無効化し、`__xxx__` 形式は対象外。`.vue` ファイルのみ pascalCase を適用
 - Renovate による依存パッケージの自動更新が有効です。Renovate の PR には追加コミットや更新を行わないこと。
 - テスト (test.mjs) は、一時的に `src/__tmp__cli` ディレクトリと `tsconfig.json` を作成して ESLint を実行します。
