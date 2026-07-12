@@ -12,10 +12,10 @@ async function main() {
       rules: ["unicorn/prefer-top-level-await"],
     },
     {
-      name: "prevent-abbreviations: dev, prodなど省略形はOK",
+      name: "name-replacements: dev, prodなど省略形はOK",
       code: "const dev = true; const prod = false;",
       shouldError: false,
-      rules: ["unicorn/prevent-abbreviations"],
+      rules: ["unicorn/name-replacements"],
     },
     {
       name: "no-null: nullの使用はOK",
