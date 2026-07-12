@@ -18,8 +18,9 @@ export default tseslint.config(
     //
     // 生成方法: eslint-plugin-unicorn の flat/recommended が定義する
     // ルール一覧を元に、以下を除外・調整して作成した。
-    // - deprecated ルールは対象外（catch-error-name, filename-case は
-    //   下記の専用ブロックでオプション付きで設定するためここでは省略）
+    // - deprecated ルールは対象外
+    // - catch-error-name, filename-case はオプション付きで設定するため、
+    //   下記の専用ブロックに記載し、ここでは省略する
     // - 意図的に off とするルール（下記コメント参照）
     plugins: { unicorn },
     rules: {
@@ -31,11 +32,11 @@ export default tseslint.config(
       "unicorn/consistent-function-scoping": "off",
       // トップレベル await を許可する（IIFE 併用の CLI ツール等のため）
       "unicorn/prefer-top-level-await": "off",
-      // 省略形を許可する (dev -> development, prod -> productionなどの変換をさせない)
+      // 省略形を許可する (dev -> development, prod -> production などの変換をさせない)
       "unicorn/prevent-abbreviations": "off",
-      // nullを許可する
+      // null を許可する
       "unicorn/no-null": "off",
-      // 無駄なundefinedを許可する
+      // 無駄な undefined を許可する
       "unicorn/no-useless-undefined": "off",
       //
       // 以下、上記以外の flat/recommended 収録ルールをすべて明示的に error とする
