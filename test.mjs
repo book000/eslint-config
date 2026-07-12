@@ -1,7 +1,10 @@
 // Node.jsスクリプトでESLint flat config(index.mjs)の動作を検証するサンプル
-import { exec } from "child_process";
+import { execFile } from "child_process";
 import fs from "fs";
 import path from "path";
+import { promisify } from "util";
+
+const execFileAsync = promisify(execFile);
 
 async function main() {
   const testCases = [
@@ -219,6 +222,78 @@ async function main() {
       rules: ["unicorn/consistent-class-member-order"],
     },
     {
+      name: "prefer-await: .then() チェーンを使う非asyncな薄いラッパー関数はOK",
+      code: "function getValue(): Promise<number> { return Promise.resolve(1).then((value) => value); }",
+      shouldError: false,
+      rules: ["unicorn/prefer-await"],
+    },
+    {
+      name: "consistent-boolean-name: is/has等のプレフィックスがない真偽値変数名はOK",
+      code: "const enabled: boolean = true;",
+      shouldError: false,
+      rules: ["unicorn/consistent-boolean-name"],
+    },
+    {
+      name: "no-non-function-verb-prefix: 動詞プレフィックスを持つ非関数の変数名はOK",
+      code: "const removeButton = 1;",
+      shouldError: false,
+      rules: ["unicorn/no-non-function-verb-prefix"],
+    },
+    {
+      name: "prefer-number-coercion: parseInt による数値変換はOK",
+      code: "const n = parseInt('1', 10);",
+      shouldError: false,
+      rules: ["unicorn/prefer-number-coercion"],
+    },
+    {
+      name: "no-top-level-assignment-in-function: トップレベル変数へのキャッシュ代入はOK",
+      code: "let cache: number | undefined; function setCache(): void { cache = 1; }",
+      shouldError: false,
+      rules: ["unicorn/no-top-level-assignment-in-function"],
+    },
+    {
+      name: "prefer-unicode-code-point-escapes: \\uXXXX形式のエスケープはOK",
+      code: "const s = '\\u00e9';",
+      shouldError: false,
+      rules: ["unicorn/prefer-unicode-code-point-escapes"],
+    },
+    {
+      name: "no-break-in-nested-loop: ネストしたループ内のbreakによる早期脱出はOK",
+      code: "for (let i = 0; i < 3; i++) { for (let j = 0; j < 3; j++) { if (j === 1) break; } }",
+      shouldError: false,
+      rules: ["unicorn/no-break-in-nested-loop"],
+    },
+    {
+      name: "class-reference-in-static-methods: staticメソッド内での非呼び出し位置のクラス名参照はOK",
+      code: "class Foo { static bar = 1; static create(): number { return Foo.bar; } }",
+      shouldError: false,
+      rules: ["unicorn/class-reference-in-static-methods"],
+    },
+    {
+      name: "prefer-while-loop-condition: while(true) + 内部breakによる終了判定はOK",
+      code: "let i = 0; while (true) { if (i >= 5) break; i++; }",
+      shouldError: false,
+      rules: ["unicorn/prefer-while-loop-condition"],
+    },
+    {
+      name: "prefer-location-assign: location.hrefへの代入はOK",
+      code: "location.href = 'https://example.com';",
+      shouldError: false,
+      rules: ["unicorn/prefer-location-assign"],
+    },
+    {
+      name: "max-nested-calls: スキーマ定義等のメソッドチェーンによる深いネストはOK",
+      code: "function a(x: number) { return b(x); } function b(x: number) { return c(x); } function c(x: number) { return d(x); } function d(x: number) { return x; } const result = a(b(c(d(1))));",
+      shouldError: false,
+      rules: ["unicorn/max-nested-calls"],
+    },
+    {
+      name: "no-global-object-property-assignment: globalThisプロパティへの代入（テストのモック等）はOK",
+      code: "globalThis.fetch = (() => Promise.resolve(new Response())) as typeof fetch;",
+      shouldError: false,
+      rules: ["unicorn/no-global-object-property-assignment"],
+    },
+    {
       name: "filename-case: checkDirectories: false のため kebab-case でないディレクトリ名もエラーにならない（OK）",
       code: "export const a = 1;",
       shouldError: false,
@@ -276,57 +351,98 @@ async function main() {
   const flatConfigPath = path.join(process.cwd(), "eslint.config.mjs");
   fs.copyFileSync(path.join(process.cwd(), "index.mjs"), flatConfigPath);
 
-  // 並列実行用のPromise配列
-  const promises = testCases.map((testCase, i) => {
-    return new Promise((resolve) => {
-      const { name, code, shouldError, rules, dir } = testCase;
-      const kebabName = `test-${i}.ts`;
-      const targetDir = dir ? path.join(srcDir, dir) : tmpDir;
-      const tmpFilePath = path.join(targetDir, kebabName);
-      fs.writeFileSync(tmpFilePath, code);
-      exec(
-        `npx eslint --no-cache --ext .ts ${tmpFilePath}`,
-        (error, stdout, stderr) => {
-          const output = (stdout || "") + (stderr || "");
-          // テスト項目ごとに対象ルールのみを判定
-          const errorLines = output
-            .split("\n")
-            .filter((line) => line.match(/error/));
-          let errorCount = 0;
-          let ignoredErrors = [];
-          const relevantErrors = [];
-          for (const line of errorLines) {
-            const ruleMatch = line.match(/\s([\w@\-/]+)$/);
-            const rule = ruleMatch ? ruleMatch[1] : null;
-            if (rule && rules.includes(rule)) {
-              errorCount = 1;
-              relevantErrors.push(line);
-            } else {
-              ignoredErrors.push(line);
-            }
-          }
-          fs.unlinkSync(tmpFilePath);
-          resolve({
-            name,
-            shouldError,
-            errorCount,
-            output,
-            relevantErrors,
-            ignoredErrors,
-          });
-        }
-      );
-    });
+  // テスト用一時ファイルをすべて書き出す (プロセス起動は後で 1 回だけ行う)
+  const tmpFilePaths = testCases.map((testCase, i) => {
+    const { code, dir } = testCase;
+    const kebabName = `test-${i}.ts`;
+    const targetDir = dir ? path.join(srcDir, dir) : tmpDir;
+    const tmpFilePath = path.join(targetDir, kebabName);
+    fs.writeFileSync(tmpFilePath, code);
+    return tmpFilePath;
   });
 
-  const results = await Promise.all(promises);
+  // 全テストケースを 1 回の eslint 起動でまとめて検証する。
+  // 以前はテストケースごとに `npx eslint` を並列起動していたため、
+  // type-aware (typescript-eslint) なパーサ初期化がテストケース数分同時に走り、
+  // メモリ枯渇・OOM killer の引き金になっていた。
+  // 1 プロセス・1 回の TypeScript プログラム初期化にまとめることで、
+  // プロセス数をテストケース数から 1 に減らし、メモリ使用量を大幅に下げる。
+  const eslintBinPath = path.join(
+    process.cwd(),
+    "node_modules",
+    "eslint",
+    "bin",
+    "eslint.js"
+  );
+  let jsonOutput = "";
+  try {
+    const { stdout } = await execFileAsync(
+      process.execPath,
+      [
+        eslintBinPath,
+        "--no-cache",
+        "--ext",
+        ".ts",
+        "--format",
+        "json",
+        ...tmpFilePaths,
+      ],
+      { maxBuffer: 1024 * 1024 * 50 }
+    );
+    jsonOutput = stdout;
+  } catch (error) {
+    // eslint はテストケースに期待どおりのエラーがあると非ゼロの exit code を返すが、
+    // これはテストとして期待される挙動なので、JSON 形式の stdout が取れていれば
+    // 正常系として扱う。設定エラー等で stdout に JSON が出力されない場合は
+    // ここでは判別せず、後続の JSON.parse で例外として検出させる。
+    if (error.stdout) {
+      jsonOutput = error.stdout;
+    } else {
+      throw error;
+    }
+  }
+
+  const eslintResults = JSON.parse(jsonOutput);
+  const resultsByFilePath = new Map(
+    eslintResults.map((result) => [result.filePath, result])
+  );
+
+  const results = testCases.map((testCase, i) => {
+    const { name, shouldError, rules } = testCase;
+    const tmpFilePath = tmpFilePaths[i];
+    const fileResult = resultsByFilePath.get(tmpFilePath);
+    if (!fileResult) {
+      // 対象ファイルが eslint の結果に存在しない場合、空メッセージとして
+      // 握りつぶすと「エラー 0 件 = OK」と誤ってパスしてしまう。
+      // ファイルが実際には lint されていないことを示すため、例外として検出する。
+      throw new Error(
+        `ESLint did not return a result for temp file: ${tmpFilePath}`
+      );
+    }
+
+    let errorCount = 0;
+    const relevantErrors = [];
+    const ignoredErrors = [];
+    for (const message of fileResult.messages) {
+      const severityLabel = message.severity === 2 ? "error" : "warning";
+      const line = `  ${message.line}:${message.column}  ${severityLabel}  ${message.message}  ${message.ruleId ?? ""}`;
+      if (message.ruleId && rules.includes(message.ruleId)) {
+        errorCount = 1;
+        relevantErrors.push(line);
+      } else {
+        ignoredErrors.push(line);
+      }
+    }
+
+    fs.unlinkSync(tmpFilePath);
+    return { name, shouldError, errorCount, relevantErrors, ignoredErrors };
+  });
   let pass = 0,
     fail = 0;
   for (const {
     name,
     shouldError,
     errorCount,
-    output,
     relevantErrors,
     ignoredErrors,
   } of results) {
