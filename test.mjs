@@ -24,6 +24,18 @@ async function main() {
       rules: ["unicorn/no-null"],
     },
     {
+      name: "no-array-reduce: reduceの使用はOK",
+      code: "const sum = [1, 2, 3].reduce((accumulator, value) => accumulator + value, 0);",
+      shouldError: false,
+      rules: ["unicorn/no-array-reduce"],
+    },
+    {
+      name: "consistent-function-scoping: 外側スコープを捕捉するネストした関数はOK",
+      code: "function outer() { const base = 1; function inner() { return base; } return inner(); }",
+      shouldError: false,
+      rules: ["unicorn/consistent-function-scoping"],
+    },
+    {
       name: "no-use-before-define: 定義前の変数使用はエラー",
       code: "console.log(a); const a = 1;",
       shouldError: true,
