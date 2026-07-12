@@ -47,35 +47,6 @@
 - TypeScript プロジェクトにおいて、skipLibCheck を有効にして回避することは絶対にしてはならない
 - 関数やインターフェースには、docstring (JSDoc など) を日本語で記載・更新する
 
-## 相談ルール
-
-Codex CLI や Gemini CLI の他エージェントに相談することができます。以下の観点で使い分けてください：
-
-### Codex CLI (ask-codex)
-
-- 実装コードに対するソースコードレビュー
-- 関数設計、モジュール内部の実装方針などの局所的な技術判断
-- アーキテクチャ、モジュール間契約、パフォーマンス / セキュリティといった全体影響の判断
-- 実装の正当性確認、機械的ミスの検出、既存コードとの整合性確認
-
-### Gemini CLI (ask-gemini)
-
-- SaaS 仕様、言語・ランタイムのバージョン差、料金・制限・クォータといった、最新の適切な情報が必要な外部依存の判断
-- 外部一次情報の確認、最新仕様の調査、外部前提条件の検証
-
-### 指摘への対応ルール
-
-他エージェントが指摘・異議を提示した場合、Claude Code は必ず以下のいずれかを行う。黙殺・無言での不採用は禁止する：
-
-- 指摘を受け入れ、判断を修正する
-- 指摘を退け、その理由を明示する
-
-以下は必ず実施：
-
-- 他エージェントの提案を鵜呑みにせず、その根拠や理由を理解する
-- 自身の分析結果と他エージェントの意見が異なる場合は、双方の視点を比較検討する
-- 最終的な判断は、両者の意見を総合的に評価した上で、自身で下す
-
 ## 開発コマンド
 
 ```bash
@@ -182,8 +153,11 @@ pnpm test
   - `@typescript-eslint/no-extraneous-class`: 名前空間として使用されるクラスを許可
   - `@typescript-eslint/no-use-before-define`: TypeScript 準拠に変更
   - `unicorn/prefer-top-level-await`: off (トップレベル await を許可)
+  - `unicorn/consistent-class-member-order`: off (private before public を強制せず public-first の慣習を許可)
   - `unicorn/prevent-abbreviations`: off (省略形を許可)
   - `unicorn/no-null`: off (null を許可)
   - `unicorn/no-useless-undefined`: off (無駄な undefined を許可)
+  - `unicorn/catch-error-name`: catch のエラー変数名を `error` に統一 (`err` も許可)
+  - `unicorn/filename-case`: `checkDirectories: false` でディレクトリ名チェックを無効化し、`__xxx__` 形式は対象外。`.vue` ファイルのみ pascalCase を適用
 - Renovate による依存パッケージの自動更新が有効です。Renovate の PR には追加コミットや更新を行わないこと。
 - テスト (test.mjs) は、一時的に `src/__tmp__cli` ディレクトリと `tsconfig.json` を作成して ESLint を実行します。

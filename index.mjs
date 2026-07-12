@@ -254,6 +254,17 @@ export default tseslint.config(
       // 変数などの未定義使用について、TypeScript準拠とする
       "no-use-before-define": "off",
       "@typescript-eslint/no-use-before-define": "error",
+      // トップレベルのawaitを許可する
+      "unicorn/prefer-top-level-await": "off",
+      // クラスメンバーの順序（private before public）を強制しない。
+      // public-first の慣習は API の可読性として広く使われているため。
+      "unicorn/consistent-class-member-order": "off",
+      // 省略形を許可する (dev -> development, prod -> productionなどの変換をさせない)
+      "unicorn/prevent-abbreviations": "off",
+      // nullを許可する
+      "unicorn/no-null": "off",
+      // 無駄なundefinedを許可する
+      "unicorn/no-useless-undefined": "off",
     },
   },
   {
@@ -264,10 +275,34 @@ export default tseslint.config(
     },
   },
   {
-    // __tests__ や __mocks__ など、Jest 等の規約に基づく
-    // ダブルアンダースコアディレクトリ名を unicorn/filename-case の対象外とする
+    // unicorn v65 からファイル名に加えてディレクトリ名もチェック対象となったが、
+    // ignore オプションはマッチしたセグメントを含むファイル全体をスキップするため
+    // ファイル名チェック自体まで無効化してしまう。
+    // そのため checkDirectories: false でディレクトリ名チェックのみ無効化する。
+    // src 等の慣習的なディレクトリ名でエラーが起きる問題もこれで解消される。
+    // __tests__ や __mocks__ 等のダブルアンダースコアディレクトリは引き続き
+    // ignore で対象外とする（テストファイル等はファイル名チェックも不要なため）。
     rules: {
-      "unicorn/filename-case": ["error", { ignore: [/^__[\w-]+__$/] }],
+      "unicorn/filename-case": [
+        "error",
+        { checkDirectories: false, ignore: [/^__[\w-]+__$/] },
+      ],
+    },
+  },
+  {
+    // Vue コンポーネントは PascalCase の命名規則が慣習であるため、
+    // .vue ファイルに限り pascalCase を適用する。
+    // unicorn/filename-case のルールは ESLint flat config の「最後に定義したルールが勝つ」
+    // 仕様により、プロジェクト側でオーバーライドするとここで設定した checkDirectories: false
+    // も上書きされてしまう。
+    // そのため、プロジェクト側で filename-case を再定義せずにこのデフォルト設定を
+    // 使い続けられるよう、あらかじめ checkDirectories: false も含めて設定する。
+    files: ["**/*.vue"],
+    rules: {
+      "unicorn/filename-case": [
+        "error",
+        { case: "pascalCase", checkDirectories: false },
+      ],
     },
   },
   {
