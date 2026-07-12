@@ -48,12 +48,55 @@ export default tseslint.config(
       // クラスメンバーの順序（private before public）を強制しない。
       // public-first の慣習は API の可読性として広く使われているため。
       "unicorn/consistent-class-member-order": "off",
+      // 依存プロジェクト横断での実運用調査 (tomacheese/book000/jaoafa 各オーガニゼーション規模) の
+      // 結果、誤検知率が高く実利が薄いと判断したルールを以下のとおり無効化する。
+      //
+      // .then()/.catch()/.finally() チェーンを await へ書き換えるよう強制するが、
+      // 関数自体を async 化したくない薄いラッパー関数 (Promise を返すだけの関数) まで
+      // 書き換え対象になり実利が薄いため無効化する
+      "unicorn/prefer-await": "off",
+      // is/has/should 等のプレフィックスを強制するが、ドメイン語彙由来の真偽値変数名
+      // (enabled, visible 等) まで誤検知するため無効化する
+      "unicorn/consistent-boolean-name": "off",
+      // get/set/create 等の動詞プレフィックスを持つ関数以外の値 (変数・プロパティ等) を
+      // 検出するが、removeButton (削除用ボタン要素を指す変数名) のようなドメイン語彙由来の
+      // 命名まで誤検知するため無効化する
+      "unicorn/no-non-function-verb-prefix": "off",
+      // Number() による型強制を強制するが、parseInt 等との挙動差 (NaN の扱い等) により
+      // 意図せず動作が変わる危険があるため無効化する
+      "unicorn/prefer-number-coercion": "off",
+      // モジュールトップレベル変数へのキャッシュ/メモ化目的の代入という一般的な
+      // パターンまで誤検知するため無効化する
+      "unicorn/no-top-level-assignment-in-function": "off",
+      // \uXXXX と \u{XXXX} は等価であり、既存コードへの機械的な書き換えを強制する
+      // だけで実利が薄いため無効化する
+      "unicorn/prefer-unicode-code-point-escapes": "off",
+      // ネストしたループ内の break による意図的な早期脱出パターンまで誤検知するため
+      // 無効化する
+      "unicorn/no-break-in-nested-loop": "off",
+      // 継承・拡張を意図した static メソッド内でのクラス名参照という正当な
+      // パターンまで誤検知するため無効化する
+      "unicorn/class-reference-in-static-methods": "off",
+      // while (true) の先頭で break 条件を判定するコードを、条件を while() の式へ
+      // 移すよう強制するが、ループ内で算出した値を break 条件に使うイディオム
+      // (while (true) { const chunk = readNext(); if (!chunk) break; ... }) まで
+      // 誤検知するため無効化する
+      "unicorn/prefer-while-loop-condition": "off",
+      // location.href への代入と location.assign() はほぼ等価であり、機械的な
+      // 書き換えを強制するだけで実利が薄いため無効化する
+      "unicorn/prefer-location-assign": "off",
+      // 呼び出しの引数として渡された呼び出しの入れ子の深さを検出するが、
+      // z.array(z.object({ ... })) のような Zod 等のスキーマ定義における正当な
+      // 入れ子呼び出しまで誤検知するため無効化する
+      "unicorn/max-nested-calls": "off",
+      // globalThis/window/global のプロパティへの代入は、テストやモックの
+      // セットアップにおける標準的なイディオム (globalThis.fetch = mock 等) であり、
+      // 実運用コードでの誤検知率が高いため無効化する
+      "unicorn/no-global-object-property-assignment": "off",
       //
       // 以下、上記以外の flat/recommended 収録ルールをすべて明示的に error とする
       "unicorn/better-dom-traversing": "error",
-      "unicorn/class-reference-in-static-methods": "error",
       "unicorn/consistent-assert": "error",
-      "unicorn/consistent-boolean-name": "error",
       "unicorn/consistent-compound-words": "error",
       "unicorn/consistent-conditional-object-spread": "error",
       "unicorn/consistent-date-clone": "error",
@@ -75,7 +118,6 @@ export default tseslint.config(
       "unicorn/import-style": "error",
       "unicorn/isolated-functions": "error",
       "unicorn/logical-assignment-operators": "error",
-      "unicorn/max-nested-calls": "error",
       "unicorn/new-for-builtins": "error",
       "unicorn/no-abusive-eslint-disable": "error",
       "unicorn/no-accessor-recursion": "error",
@@ -95,7 +137,6 @@ export default tseslint.config(
       "unicorn/no-await-in-promise-methods": "error",
       "unicorn/no-blob-to-file": "error",
       "unicorn/no-boolean-sort-comparator": "error",
-      "unicorn/no-break-in-nested-loop": "error",
       "unicorn/no-canvas-to-image": "error",
       "unicorn/no-chained-comparison": "error",
       "unicorn/no-collection-bracket-access": "error",
@@ -116,7 +157,6 @@ export default tseslint.config(
       "unicorn/no-exports-in-scripts": "error",
       "unicorn/no-for-each": "error",
       "unicorn/no-for-loop": "error",
-      "unicorn/no-global-object-property-assignment": "error",
       "unicorn/no-immediate-mutation": "error",
       "unicorn/no-impossible-length-comparison": "error",
       "unicorn/no-incorrect-query-selector": "error",
@@ -142,7 +182,6 @@ export default tseslint.config(
       "unicorn/no-nested-ternary": "error",
       "unicorn/no-new-array": "error",
       "unicorn/no-new-buffer": "error",
-      "unicorn/no-non-function-verb-prefix": "error",
       "unicorn/no-nonstandard-builtin-properties": "error",
       "unicorn/no-object-as-default-parameter": "error",
       "unicorn/no-object-methods-with-collections": "error",
@@ -157,7 +196,6 @@ export default tseslint.config(
       "unicorn/no-thenable": "error",
       "unicorn/no-this-assignment": "error",
       "unicorn/no-this-outside-of-class": "error",
-      "unicorn/no-top-level-assignment-in-function": "error",
       "unicorn/no-top-level-side-effects": "error",
       "unicorn/no-typeof-undefined": "error",
       "unicorn/no-uncalled-method": "error",
@@ -223,7 +261,6 @@ export default tseslint.config(
       "unicorn/prefer-array-slice": "error",
       "unicorn/prefer-array-some": "error",
       "unicorn/prefer-at": "error",
-      "unicorn/prefer-await": "error",
       "unicorn/prefer-bigint-literals": "error",
       "unicorn/prefer-blob-reading-methods": "error",
       "unicorn/prefer-block-statement-over-iife": "error",
@@ -259,7 +296,6 @@ export default tseslint.config(
       "unicorn/prefer-iterator-to-array": "error",
       "unicorn/prefer-iterator-to-array-at-end": "error",
       "unicorn/prefer-keyboard-event-key": "error",
-      "unicorn/prefer-location-assign": "error",
       "unicorn/prefer-logical-operator-over-ternary": "error",
       "unicorn/prefer-map-from-entries": "error",
       "unicorn/prefer-math-abs": "error",
@@ -273,7 +309,6 @@ export default tseslint.config(
       "unicorn/prefer-native-coercion-functions": "error",
       "unicorn/prefer-negative-index": "error",
       "unicorn/prefer-node-protocol": "error",
-      "unicorn/prefer-number-coercion": "error",
       "unicorn/prefer-number-is-safe-integer": "error",
       "unicorn/prefer-number-properties": "error",
       "unicorn/prefer-object-define-properties": "error",
@@ -321,11 +356,9 @@ export default tseslint.config(
       "unicorn/prefer-type-error": "error",
       "unicorn/prefer-type-literal-last": "error",
       "unicorn/prefer-unary-minus": "error",
-      "unicorn/prefer-unicode-code-point-escapes": "error",
       "unicorn/prefer-url-can-parse": "error",
       "unicorn/prefer-url-href": "error",
       "unicorn/prefer-url-search-parameters": "error",
-      "unicorn/prefer-while-loop-condition": "error",
       "unicorn/relative-url-style": "error",
       "unicorn/require-array-join-separator": "error",
       "unicorn/require-array-sort-compare": "error",
