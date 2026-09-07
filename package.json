@@ -27,7 +27,7 @@
   "peerDependencies": {
     "eslint": "10.9.1"
   },
-  "packageManager": "pnpm@12.3.3",
+  "packageManager": "pnpm@12.3.4",
   "scripts": {
     "test": "TEST_CLI=1 node --experimental-vm-modules test.mjs"
   }
