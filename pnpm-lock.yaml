@@ -176,8 +176,8 @@ importers:
         specifier: 10.1.8
         version: 10.1.8(eslint@10.13.0)
       eslint-plugin-unicorn:
-        specifier: 78.0.0
-        version: 78.0.0(eslint@10.13.0)(typescript@6.0.3)
+        specifier: 79.0.0
+        version: 79.0.0(eslint@10.13.0)(typescript@6.0.3)
       globals:
         specifier: 17.13.0
         version: 17.13.0
@@ -486,8 +486,8 @@ packages:
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0
 
-  eslint-plugin-unicorn@78.0.0:
-    resolution: {integrity: sha512-XTDqxcJeAmh2lhgU75TpuMDdFtPDnAU+DCW56nR5UzXTG+uOyvOGjV80O11my7kNb2bYSCPlWa8c4K8/rwlYog==}
+  eslint-plugin-unicorn@79.0.0:
+    resolution: {integrity: sha512-k7MWrjoVTVCnjKpgaxBuScPNSPomLvDpsd9uADpWrIFzrnwiec27eWhGrmmyuTj1bC3xVNYP4QfG3MEzEw6ifg==}
     engines: {node: '>=22'}
     peerDependencies:
       eslint: '>=10.4'
@@ -1241,7 +1241,7 @@ snapshots:
       '@eslint-community/eslint-utils': 4.10.1(eslint@10.13.0)
       eslint: 10.13.0
 
-  eslint-plugin-unicorn@78.0.0(eslint@10.13.0)(typescript@6.0.3):
+  eslint-plugin-unicorn@79.0.0(eslint@10.13.0)(typescript@6.0.3):
     dependencies:
       '@eslint-community/eslint-utils': 4.10.1(eslint@10.13.0)
       '@eslint/css-tree': 4.1.2
